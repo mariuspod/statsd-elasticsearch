@@ -125,7 +125,8 @@ Optional Variables:
 , backends: [ "./backends/graphite" ]
 }*/
 
- backends: [ 'statsd-elasticsearch-backend'],
+{
+ backends: [ './backends/elastic'],
  debug: true,
  elasticsearch: {
      port:          9200,
@@ -141,4 +142,4 @@ Optional Variables:
      gaugeDataType: "gauge",
      formatter:     "default_format"
  }
-
+}

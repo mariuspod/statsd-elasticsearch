@@ -1,0 +1,15 @@
+version: '3'
+services:
+  statsd-backend:
+    build: .
+    depends_on:
+      - elasticsearch
+    networks:
+      - statsd_net
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:5.2.2
+    networks:
+      - statsd_net
+
+networks:
+  statsd_net:

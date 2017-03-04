@@ -8,6 +8,8 @@ services:
       - statsd_net
   elasticsearch:
     image: docker.elastic.co/elasticsearch/elasticsearch:5.2.2
+    ports:
+      - "9200:9200"
     networks:
       - statsd_net
 

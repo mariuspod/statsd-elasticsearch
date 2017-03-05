@@ -18,6 +18,8 @@ services:
       - elasticsearch1
       - elasticsearch2
       - kibana
+    environment:
+      - ES_HOST=elasticsearch1
     ports:
       - "8125:8125/udp"
     networks:

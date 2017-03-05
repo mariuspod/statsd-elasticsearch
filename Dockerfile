@@ -6,7 +6,7 @@ RUN mkdir -p /app && \
     curl -L https://github.com/etsy/statsd/tarball/master | tar -xz && \
     mv etsy-statsd-* statsd && \
     apt-get update && apt-get install -y git && \
-    npm install git://github.com/markkimsal/statsd-elasticsearch-backend.git
+    npm install git://github.com/mariuspod/statsd-elasticsearch-backend.git
 
 ENV CONFIG_URL https://raw.githubusercontent.com/mariuspod/statsd-elasticsearch/master/config.js
 RUN curl -L -k $CONFIG_URL -o /app/config.js

@@ -5,6 +5,8 @@ services:
     depends_on:
       - elasticsearch1
       - elasticsearch2
+    environment:
+      - ES_HOST=elasticsearch1
     ports:
       - "8125:8125/udp"
     networks:

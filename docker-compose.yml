@@ -3,15 +3,70 @@ services:
   statsd-backend:
     build: .
     depends_on:
-      - elasticsearch
+      - elasticsearch1
+      - elasticsearch2
+      - kibana
+    ports:
+      - "8125:8125/udp"
     networks:
       - statsd_net
-  elasticsearch:
+  elasticsearch1:
     image: docker.elastic.co/elasticsearch/elasticsearch:5.2.2
+    container_name: elasticsearch1
+    environment:
+      - cluster.name=docker-cluster
+      - bootstrap.memory_lock=true
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+      nofile:
+        soft: 65536
+        hard: 65536
+    cap_add:
+      - IPC_LOCK
+    volumes:
+      - esdata1:/usr/share/elasticsearch/data
     ports:
-      - "9200:9200"
+      - 9200:9200
+    networks:
+      - statsd_net
+  elasticsearch2:
+    image: docker.elastic.co/elasticsearch/elasticsearch:5.2.2
+    environment:
+      - cluster.name=docker-cluster
+      - bootstrap.memory_lock=true
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+      - "discovery.zen.ping.unicast.hosts=elasticsearch1"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+      nofile:
+        soft: 65536
+        hard: 65536
+    cap_add:
+      - IPC_LOCK
+    volumes:
+      - esdata2:/usr/share/elasticsearch/data
+    networks:
+      - statsd_net
+
+  kibana:
+    image: docker.elastic.co/kibana/kibana:5.2.2
+    ports:
+      - "5601:5601"
+    environment:
+      ELASTICSEARCH_URL: http://elasticsearch1:9200
     networks:
       - statsd_net
 
 networks:
   statsd_net:
+
+volumes:
+  esdata1:
+    driver: local
+  esdata2:
+    driver: local

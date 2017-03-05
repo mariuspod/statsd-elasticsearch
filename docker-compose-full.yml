@@ -1,10 +1,23 @@
 version: '3'
 services:
+  uredir:
+    image: mpod/uredir
+    environment:
+      - PATTERNS=all.=statsd-backend:8125
+    stdin_open: true
+    tty: true
+    ports:
+      - "3333:3333/udp"
+    depends_on:
+      - statsd-backend
+    networks:
+      - statsd_net
   statsd-backend:
     build: .
     depends_on:
       - elasticsearch1
       - elasticsearch2
+      - kibana
     ports:
       - "8125:8125/udp"
     networks:
@@ -49,6 +62,15 @@ services:
       - IPC_LOCK
     volumes:
       - esdata2:/usr/share/elasticsearch/data
+    networks:
+      - statsd_net
+
+  kibana:
+    image: docker.elastic.co/kibana/kibana:5.2.2
+    ports:
+      - "5601:5601"
+    environment:
+      ELASTICSEARCH_URL: http://elasticsearch1:9200
     networks:
       - statsd_net
 

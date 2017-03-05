@@ -1,5 +1,17 @@
 version: '3'
 services:
+  uredir:
+    image: mpod/uredir
+    environment:
+      - PATTERNS=all.=statsd-backend:8125
+    stdin_open: true
+    tty: true
+    ports:
+      - "3333:3333/udp"
+    depends_on:
+      - statsd-backend
+    networks:
+      - statsd_net
   statsd-backend:
     build: .
     depends_on:

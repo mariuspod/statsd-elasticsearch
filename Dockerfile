@@ -10,6 +10,9 @@ RUN mkdir -p /app && \
 
 ENV CONFIG_URL https://raw.githubusercontent.com/mariuspod/statsd-elasticsearch/master/config.js
 RUN curl -L -k $CONFIG_URL -o /app/config.js
+RUN apt-get remove -y git && \
+    rm -rf /var/lib/apt/lists/*
+
 EXPOSE 8125/udp 8126
 CMD [ "/app/statsd/bin/statsd", "/app/config.js" ]
 

@@ -125,12 +125,14 @@ Optional Variables:
 , backends: [ "./backends/graphite" ]
 }*/
 
+
 {
- backends: [ './backends/statsd-elasticsearch-backend'],
+ deleteIdleStats: true,
+ backends: [ 'statsd-elasticsearch-backend'],
  debug: true,
  elasticsearch: {
      port:          9200,
-     host:          "elasticsearch",
+     host:          "elasticsearch1",
      path:          "/",
      indexPrefix:   "statsd",
      //indexTimestamp: "year",  //for index statsd-2015 
@@ -140,6 +142,8 @@ Optional Variables:
      timerType:     "timer",
      timerDataType: "timer_data",
      gaugeDataType: "gauge",
-     formatter:     "default_format"
+     formatter:     "default_format",
+     username:      "elastic",
+     password:      "changeme"
  }
 }

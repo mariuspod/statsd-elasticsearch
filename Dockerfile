@@ -9,7 +9,8 @@ RUN mkdir -p /app && \
     curl -o /app/statsd/backends/default_format.js -L https://raw.githubusercontent.com/markkimsal/statsd-elasticsearch-backend/master/lib/default_format.js && \
     curl -o /app/statsd/backends/regex_format.js -L https://raw.githubusercontent.com/markkimsal/statsd-elasticsearch-backend/master/lib/regex_format.js
 
-ADD config.js /app/
+ENV CONFIG_URL https://raw.githubusercontent.com/mariuspod/statsd-elasticsearch/master/config.js
+RUN curl -L -k $CONFIG_URL -o /app/config.js
 EXPOSE 8125/udp 8126
 CMD [ "/app/statsd/bin/statsd", "/app/config.js" ]
 

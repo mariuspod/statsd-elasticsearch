@@ -126,7 +126,7 @@ Optional Variables:
 }*/
 
 {
- backends: [ './backends/elastic'],
+ backends: [ './backends/statsd-elasticsearch-backend'],
  debug: true,
  elasticsearch: {
      port:          9200,

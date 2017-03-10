@@ -127,6 +127,7 @@ Optional Variables:
 
 
 {
+ port: 8125,
  deleteIdleStats: true,
  backends: [ 'statsd-elasticsearch-backend'],
  debug: true,
